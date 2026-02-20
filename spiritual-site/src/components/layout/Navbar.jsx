@@ -19,7 +19,9 @@ const Navbar = () => {
   const navLinks = [
     { name: "ମୁଖ୍ୟ ପୃଷ୍ଠା", nameEn: "Home", path: "/" },
     { name: "ଚିତ୍ର ଗ୍ୟାଲେରୀ", nameEn: "Gallery", path: "/gallery" },
+    { name: "ଭକ୍ତି ପରିବାର", nameEn: "Members", path: "/members" },
   ];
+  
 
   return (
     <motion.nav

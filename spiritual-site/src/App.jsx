@@ -5,6 +5,7 @@ import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
 import GalleryPage from './pages/GalleryPage';
 import WelcomeDialog from './components/common/WelcomeDialog';
+import Members from './pages/Members';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/members" element={<Members />} />
           </Routes>
         </div>
         <Footer />
