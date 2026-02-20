@@ -4,11 +4,13 @@ import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
 import GalleryPage from './pages/GalleryPage';
+import WelcomeDialog from './components/common/WelcomeDialog';
 
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
+        <WelcomeDialog />
         <Navbar />
         <div className="flex-grow">
           <Routes>

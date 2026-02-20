@@ -1,70 +1,101 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import JagannathLogo from '../common/JagannathLogo';
 
 const About = () => {
   return (
-    <section id="about" className="py-20 bg-white">
-      <div className="container-custom">
+    <section id="about" className="relative py-20 overflow-hidden">
+
+      {/* 🔴 Background (Same as Banner Theme) */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#e31b23] to-[#000000]" />
+
+        {/* Pattern */}
+        <div className="absolute inset-0 opacity-10"
+          style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, #fbb829 2px, transparent 2px)`,
+            backgroundSize: '40px 40px'
+          }}
+        />
+      </div>
+
+      <div className="container-custom relative z-10">
+
+        {/* 🔥 Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-12 text-white"
         >
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-spiritual-800 mb-4">
-            About Our Sanctuary
+          <div className="flex justify-center mb-6">
+            <JagannathLogo size="lg" />
+          </div>
+
+          <h2 className="text-4xl md:text-5xl font-bold text-[#fbb829] mb-4">
+            ଭକ୍ତି ପରିବାର
           </h2>
-          <div className="w-24 h-1 bg-spiritual-300 mx-auto" />
+
+          <p className="text-lg text-white/80 max-w-2xl mx-auto">
+            ଶ୍ରୀ ଜଗନ୍ନାଥଙ୍କ ଭକ୍ତମାନଙ୍କର ଏକତାର ସ୍ଥାନ
+          </p>
+
+          <div className="w-24 h-1 bg-[#fbb829] mx-auto mt-4" />
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <img 
-              src="https://images.unsplash.com/photo-1545389336-cf0902504353?auto=format&fit=crop&w=800" 
-              alt="Meditation Space"
-              className="rounded-2xl shadow-2xl"
-            />
-          </motion.div>
+        {/* 🔥 Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-white">
 
+          {/* Left Content */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
             className="space-y-6"
           >
-            <p className="text-lg text-spiritual-700 leading-relaxed">
-              Welcome to SpiritualSpace, a haven for those seeking peace, mindfulness, 
-              and spiritual connection. Founded in 2010, we've been guiding souls on 
-              their journey to inner harmony.
+            <p className="text-lg leading-relaxed">
+              ଏହି ପ୍ଲାଟଫର୍ମ ହେଉଛି ଶ୍ରୀ ଜଗନ୍ନାଥଙ୍କ ଭକ୍ତମାନଙ୍କ ପାଇଁ ଏକ ଦିବ୍ୟ ସ୍ଥାନ, 
+              ଯେଉଁଠାରେ ଭକ୍ତି, ଶ୍ରଦ୍ଧା ଓ ଆତ୍ମିକ ଶାନ୍ତିର ଅନୁଭବ ମିଳେ।
             </p>
-            <p className="text-lg text-spiritual-700 leading-relaxed">
-              Our sanctuary offers a unique blend of traditional wisdom and modern 
-              practices, creating an environment where everyone can find their path 
-              to spiritual growth.
+
+            <p className="text-lg leading-relaxed">
+              ଏଠାରେ ଆପଣ ଦର୍ଶନ, ଭଜନ, ରଥଯାତ୍ରା ସୂଚନା ଓ ଅନ୍ୟାନ୍ୟ ଧାର୍ମିକ 
+              କାର୍ଯ୍ୟକ୍ରମ ସମ୍ପର୍କରେ ଜାଣିପାରିବେ।
             </p>
-            
-            <div className="grid grid-cols-3 gap-4 pt-6">
-              <div className="text-center">
-                <div className="text-3xl font-display font-bold text-spiritual-600">15+</div>
-                <div className="text-sm text-spiritual-500">Years of Service</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-display font-bold text-spiritual-600">50+</div>
-                <div className="text-sm text-spiritual-500">Monthly Events</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-display font-bold text-spiritual-600">1000+</div>
-                <div className="text-sm text-spiritual-500">Community Members</div>
-              </div>
+          </motion.div>
+
+          {/* Right Stats */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-2 gap-6"
+          >
+            {/* Devotees */}
+            <div className="bg-black/40 border border-red-600 rounded-xl p-6 text-center shadow-[0_0_15px_rgba(255,0,0,0.4)]">
+              <div className="text-3xl font-bold text-[#fbb829]">10K+</div>
+              <div className="text-sm mt-2">ଭକ୍ତମାନେ ଯୋଗ ଦେଇଛନ୍ତି</div>
+            </div>
+
+            {/* Daily Visitors */}
+            <div className="bg-black/40 border border-red-600 rounded-xl p-6 text-center shadow-[0_0_15px_rgba(255,0,0,0.4)]">
+              <div className="text-3xl font-bold text-[#fbb829]">2K+</div>
+              <div className="text-sm mt-2">ଦୈନିକ ଦର୍ଶନ</div>
+            </div>
+
+            {/* Bhajans */}
+            <div className="bg-black/40 border border-red-600 rounded-xl p-6 text-center shadow-[0_0_15px_rgba(255,0,0,0.4)]">
+              <div className="text-3xl font-bold text-[#fbb829]">500+</div>
+              <div className="text-sm mt-2">ଭଜନ ଓ ପୂଜା</div>
+            </div>
+
+            {/* Events */}
+            <div className="bg-black/40 border border-red-600 rounded-xl p-6 text-center shadow-[0_0_15px_rgba(255,0,0,0.4)]">
+              <div className="text-3xl font-bold text-[#fbb829]">50+</div>
+              <div className="text-sm mt-2">ଉତ୍ସବ ଓ କାର୍ଯ୍ୟକ୍ରମ</div>
             </div>
           </motion.div>
+
         </div>
       </div>
     </section>

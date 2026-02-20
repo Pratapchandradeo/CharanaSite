@@ -1,30 +1,28 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: [
-      "./index.html",
-      "./src/**/*.{js,ts,jsx,tsx}",
-    ],
-    theme: {
-      extend: {
-        fontFamily: {
-          'sans': ['Inter', 'system-ui', 'sans-serif'],
-          'display': ['Cormorant Garamond', 'serif'],
-        },
-        colors: {
-          'spiritual': {
-            50: '#f5f3f0',
-            100: '#e8e2d9',
-            200: '#d1c5b3',
-            300: '#baa88d',
-            400: '#a38b67',
-            500: '#8c6e41',
-            600: '#705834',
-            700: '#544227',
-            800: '#382c1a',
-            900: '#1c160d',
-          }
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'odia': ['Baloo Bhai 2', 'cursive'],
+        'display': ['Cormorant Garamond', 'serif'],
+      },
+      colors: {
+        'jagannath': {
+          'red': '#e31b23',
+          'black': '#1a1a1a',
+          'white': '#ffffff',
+          'yellow': '#fbb829',
         }
       },
+      animation: {
+        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      }
     },
-    plugins: [],
-  }
+  },
+  plugins: [],
+}
