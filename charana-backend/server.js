@@ -70,14 +70,32 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`
+// Start server with admin initialization
+async function startServer() {
+  try {
+    // Initialize default admin
+    const db = require('./src/utils/db');
+    const adminInit = await db.ensureDefaultAdminAsync();
+    
+    if (adminInit.created) {
+      console.log(`✅ Default admin created: ${adminInit.username}`);
+    }
+
+    // Start listening
+    app.listen(PORT, () => {
+      console.log(`
   🛕 Jagannath Temple Backend Server
   =================================
   🌐 Server: http://localhost:${PORT}
   📁 Uploads: ${path.join(__dirname, 'uploads')}
   💾 Database: ${path.join(__dirname, 'database', 'jagannath.db')}
   =================================
-  `);
-});
+      `);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
