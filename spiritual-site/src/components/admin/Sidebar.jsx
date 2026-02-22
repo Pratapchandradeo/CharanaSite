@@ -7,6 +7,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  // Base menu items for all admins
   const menuItems = [
     {
       path: '/admin/dashboard',
@@ -53,11 +54,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         </svg>
       ),
       label: 'PDF Documents'
+    },
+    {
+      path: '/admin/profile',
+      icon: (
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      ),
+      label: 'Profile'
     }
   ];
 
-  // Admin only menu items
-  if (user?.role === 'super_admin') {
+  // Master admin only menu items (using 'master_admin' role)
+  if (user?.role === 'master_admin') {
     menuItems.push(
       {
         path: '/admin/users',
@@ -66,7 +76,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
         ),
-        label: 'Users'
+        label: 'Admin Users'
       },
       {
         path: '/admin/activity',
@@ -174,7 +184,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                 <p className="text-white text-sm font-semibold truncate">
                   {user?.full_name || user?.username}
                 </p>
-                <p className="text-white/60 text-xs capitalize">{user?.role}</p>
+                <p className="text-white/60 text-xs capitalize">{user?.role === 'master_admin' ? 'Master Admin' : 'Admin'}</p>
               </div>
             </div>
             <button

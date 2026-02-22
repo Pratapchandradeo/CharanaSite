@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Sidebar from '../../components/admin/Sidebar';
 import Header from '../../components/admin/Header';
+
+// Import all admin pages
+import AdminDashboard from './AdminDashboard';
+import AdminNotifications from './AdminNotifications';
+import AdminEvents from './AdminEvents';
+import AdminGallery from './AdminGallery';
+import AdminPDFs from './AdminPDFs';
+import AdminUsers from './AdminUsers';
+import Profile from './Profile';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -27,7 +36,23 @@ const AdminLayout = () => {
         }}
       >
         <div className="bg-black/20 rounded-xl p-6">
-          <Outlet />
+          <Routes>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="notifications" element={<AdminNotifications />} />
+            <Route path="notifications/new" element={<AdminNotifications />} />
+            <Route path="notifications/edit/:id" element={<AdminNotifications />} />
+            <Route path="events" element={<AdminEvents />} />
+            <Route path="events/new" element={<AdminEvents />} />
+            <Route path="events/edit/:id" element={<AdminEvents />} />
+            <Route path="gallery" element={<AdminGallery />} />
+            <Route path="gallery/upload" element={<AdminGallery />} />
+            <Route path="gallery/edit/:id" element={<AdminGallery />} />
+            <Route path="pdfs" element={<AdminPDFs />} />
+            <Route path="pdfs/upload" element={<AdminPDFs />} />
+            <Route path="pdfs/edit/:id" element={<AdminPDFs />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="profile" element={<Profile />} />
+          </Routes>
         </div>
       </main>
     </div>
