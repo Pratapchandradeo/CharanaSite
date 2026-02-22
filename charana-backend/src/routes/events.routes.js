@@ -1,22 +1,101 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../utils/db');
+const { authenticateToken } = require('../middleware/auth.middleware');
+const multer = require('multer');
+const path = require('path');
 
-// ========== PUBLIC ROUTES ==========
+// ================= FILE UPLOAD =================
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
 
-// GET all active events
+const upload = multer({ storage });
+
+// ================= ADMIN ROUTES =================
+
+// GET all events (admin)
+router.get('/admin/all', authenticateToken, async (req, res) => {
+  try {
+    const events = await db.allAsync(`
+      SELECT * FROM events
+      ORDER BY created_at DESC
+    `);
+    res.json(events);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch events' });
+  }
+});
+
+// CREATE event
+router.post('/admin', authenticateToken, upload.single('image'), async (req, res) => {
+  try {
+    const { title, date, time, description, contact } = req.body;
+
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+
+    const result = await db.runAsync(
+      `INSERT INTO events 
+       (title, date, time, description, contact, image_path, is_active)
+       VALUES (?, ?, ?, ?, ?, ?, 1)`,
+      [title, date, time, description, contact, imagePath]
+    );
+
+    res.json({ id: result.id });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to create event' });
+  }
+});
+
+// UPDATE event
+router.put('/admin/:id', authenticateToken, upload.single('image'), async (req, res) => {
+  try {
+    const { title, date, time, description, contact } = req.body;
+
+    const imagePath = req.file
+      ? `/uploads/${req.file.filename}`
+      : null;
+
+    await db.runAsync(
+      `UPDATE events 
+       SET title=?, date=?, time=?, description=?, contact=?,
+           image_path=COALESCE(?, image_path)
+       WHERE id=?`,
+      [title, date, time, description, contact, imagePath, req.params.id]
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update event' });
+  }
+});
+
+// DELETE event
+router.delete('/admin/:id', authenticateToken, async (req, res) => {
+  try {
+    await db.runAsync(`DELETE FROM events WHERE id=?`, [req.params.id]);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to delete event' });
+  }
+});
+
+// ================= PUBLIC ROUTES =================
+
+// GET active events
 router.get('/', async (req, res) => {
   try {
     const events = await db.allAsync(
-      `SELECT id, title, title_en, date, date_en, time, time_en, 
-              description, description_en, image_path 
-       FROM events 
-       WHERE is_active = 1 
-       ORDER BY display_order ASC, created_at DESC`
+      `SELECT * FROM events WHERE is_active = 1 ORDER BY created_at DESC`
     );
     res.json(events);
-  } catch (error) {
-    console.error('Error fetching events:', error);
+  } catch (err) {
     res.status(500).json({ error: 'Failed to fetch events' });
   }
 });
@@ -25,17 +104,11 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const event = await db.getAsync(
-      'SELECT * FROM events WHERE id = ? AND is_active = 1',
+      `SELECT * FROM events WHERE id = ?`,
       [req.params.id]
     );
-    
-    if (!event) {
-      return res.status(404).json({ error: 'Event not found' });
-    }
-    
     res.json(event);
-  } catch (error) {
-    console.error('Error fetching event:', error);
+  } catch (err) {
     res.status(500).json({ error: 'Failed to fetch event' });
   }
 });

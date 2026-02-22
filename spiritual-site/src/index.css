@@ -34,4 +34,19 @@
   .clip-path-triangle {
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   }
+  .action-card {
+    @apply bg-black/60 border border-[#fbb829] rounded-lg p-3 text-center text-sm hover:bg-[#fbb829]/20 transition;
+  }
+  .input {
+    @apply w-full px-3 py-2 bg-black border border-[#fbb829] rounded text-white text-sm;
+  }
+  
+  .btn-primary {
+    @apply bg-[#fbb829] text-black px-4 py-2 rounded font-semibold;
+  }
+  
+  .btn-outline {
+    @apply border border-[#fbb829] px-4 py-2 rounded text-white;
+  }
+  
 }

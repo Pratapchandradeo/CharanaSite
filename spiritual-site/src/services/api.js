@@ -8,46 +8,59 @@ const getAuthHeader = () => {
 // Generic fetch with error handling
 const apiFetch = async (url, options = {}) => {
   try {
+    const token = getAuthHeader();
+
+    const isFormData = options.body instanceof FormData;
+
     const response = await fetch(url, {
       ...options,
       headers: {
-        'Content-Type': 'application/json',
-        ...getAuthHeader(),
-        ...options.headers
-      }
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.error || 'API request failed');
+      throw new Error(data.error || "API request failed");
     }
 
     return data;
   } catch (error) {
-    console.error('API Error:', error);
+    console.error("API Error:", error);
     throw error;
   }
 };
 
 // Notifications API
 export const notificationsAPI = {
+  // Public endpoints
   getAll: () => apiFetch(`${API_BASE}/notifications`),
-  getAdminAll: () => apiFetch(`${API_BASE}/notifications/admin/all`),
   getById: (id) => apiFetch(`${API_BASE}/notifications/${id}`),
-  create: (data) => apiFetch(`${API_BASE}/notifications/admin`, {
+  
+  // Admin endpoints (with auth)
+  getAdminAll: () => apiFetch(`${API_BASE}/notifications/admin/all`, {
+    headers: getAuthHeader()
+  }),
+  create: (data) => apiFetch(`${API_BASE}/notifications`, {
     method: 'POST',
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
+    headers: getAuthHeader()
   }),
-  update: (id, data) => apiFetch(`${API_BASE}/notifications/admin/${id}`, {
+  update: (id, data) => apiFetch(`${API_BASE}/notifications/${id}`, {
     method: 'PUT',
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
+    headers: getAuthHeader()
   }),
-  delete: (id) => apiFetch(`${API_BASE}/notifications/admin/${id}`, {
-    method: 'DELETE'
+  delete: (id) => apiFetch(`${API_BASE}/notifications/${id}`, {
+    method: 'DELETE',
+    headers: getAuthHeader()
   }),
-  permanentDelete: (id) => apiFetch(`${API_BASE}/notifications/admin/${id}/permanent`, {
-    method: 'DELETE'
+  permanentDelete: (id) => apiFetch(`${API_BASE}/notifications/${id}/permanent`, {
+    method: 'DELETE',
+    headers: getAuthHeader()
   })
 };
 
